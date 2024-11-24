@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Up Your Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fc;
+        }
+
+        .navbar {
+            background-color: #6EC1E4;
+            color: #fff;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-brand img {
+            height: 40px;
+            width: 100px;
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+
+        .profile-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .profile-container h3 {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .profile-container p {
+            text-align: center;
+            color: #777;
+        }
+
+        .profile-container form {
+            margin-top: 20px;
+        }
+
+        .profile-container .form-group {
+            margin-bottom: 15px;
+        }
+
+        .profile-container .form-control {
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .profile-container .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #6EC1E4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .profile-container .btn:hover {
+            background-color: #4fa1c5;
+        }
+
+        .profile-container .profile-details {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="index.html">
+            <h4>Tutors Dashboard</h4>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="profile-container">
+            <h3>Set Up Your Tutor Profile</h3>
+            <p>Let your potential students review your Profile!</p>
+
+            <!-- Profile Form -->
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="e.g. John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="e.g. john.doe@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="e.g. +1234567890" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea class="form-control" id="bio" rows="3" placeholder="Write a short bio"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="qualifications">Qualifications (comma-separated)</label>
+                    <input type="text" class="form-control" id="qualifications" placeholder="e.g. B.Sc in Education, TESOL Certified">
+                </div>
+
+                <div class="form-group">
+                    <label for="subjects">Subjects Offered (comma-separated)</label>
+                    <input type="text" class="form-control" id="subjects" placeholder="e.g. Math, Physics, English">
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Availability (comma-separated)</label>
+                    <input type="text" class="form-control" id="availability" placeholder="e.g. Mon-Fri, 9am - 5pm">
+                </div>
+
+                <div class="form-group">
+                    <label for="pricing">Pricing (per hour)</label>
+                    <input type="number" class="form-control" id="pricing" placeholder="e.g. 25" required>
+                </div>
+
+                <button type="submit" class="btn">Save Profile</button>
+            </form>
+
+            <!-- Profile Preview -->
+            <div class="profile-details">
+                <h4>Your Profile</h4>
+                <p><strong>Full Name:</strong> <span id="preview-fullName"></span></p>
+                <p><strong>Email:</strong> <span id="preview-email"></span></p>
+                <p><strong>Phone Number:</strong> <span id="preview-phoneNumber"></span></p>
+                <p><strong>Bio:</strong> <span id="preview-bio"></span></p>
+                <p><strong>Qualifications:</strong> <span id="preview-qualifications"></span></p>
+                <p><strong>Subjects Offered:</strong> <span id="preview-subjects"></span></p>
+                <p><strong>Availability:</strong> <span id="preview-availability"></span></p>
+                <p><strong>Pricing:</strong> $<span id="preview-pricing"></span> per hour</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const storedUser = localStorage.getItem("profileData");
+            if (storedUser) {
+                const userData = JSON.parse(storedUser);
+                document.getElementById("fullName").value = userData.fullName || '';
+                document.getElementById("email").value = userData.email || '';
+                document.getElementById("phoneNumber").value = userData.phoneNumber || '';
+                document.getElementById("bio").value = userData.bio || '';
+                document.getElementById("qualifications").value = (userData.qualifications || []).join(', ');
+                document.getElementById("subjects").value = (userData.subjects || []).join(', ');
+                document.getElementById("availability").value = (userData.availability || []).join(', ');
+                document.getElementById("pricing").value = userData.pricing || '';
+                updateProfilePreview(userData);
+            }
+
+            document.getElementById("profile-form").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const profileData = {
+                    fullName: document.getElementById("fullName").value,
+                    email: document.getElementById("email").value,
+                    phoneNumber: document.getElementById("phoneNumber").value,
+                    bio: document.getElementById("bio").value,
+                    qualifications: document.getElementById("qualifications").value.split(',').map(item => item.trim()),
+                    subjects: document.getElementById("subjects").value.split(',').map(item => item.trim()),
+                    availability: document.getElementById("availability").value.split(',').map(item => item.trim()),
+                    pricing: document.getElementById("pricing").value
+                };
+
+                localStorage.setItem("profileData", JSON.stringify(profileData));
+                updateProfilePreview(profileData);
+                window.location.href = "index.html"; // Replace with dashboard URL
+            });
+        });
+
+        function updateProfilePreview(data) {
+            document.getElementById("preview-fullName").textContent = data.fullName || '';
+            document.getElementById("preview-email").textContent = data.email || '';
+            document.getElementById("preview-phoneNumber").textContent = data.phoneNumber || '';
+            document.getElementById("preview-bio").textContent = data.bio || '';
+            document.getElementById("preview-qualifications").textContent = (data.qualifications || []).join(', ');
+            document.getElementById("preview-subjects").textContent = (data.subjects || []).join(', ');
+            document.getElementById("preview-availability").textContent = (data.availability || []).join(', ');
+            document.getElementById("preview-pricing").textContent = data.pricing || '';
+        }
+    </script>
+</body>
+
+</html>
